@@ -146,3 +146,18 @@ max_effort <- max(variables$effort)
 max_incentive <- 67224.5
 
 ##calculate the incentive based on predicted likelihood of renewal
+incentive_preds <- data.frame(incentive_preds = 0)
+preds_v2 <- cbind(preds, incentive_preds)
+
+for (i in 1:length(preds_v2$V1)) {
+  ifelse(preds_v2$V1[i] + (max_percentage_improved/100) <= 1.0, preds_v2$incentive_preds[i] <- max_incentive, 
+         400*(log((-10)/((5*log(-20/((((max_percentage_improved/100)-(preds_v2$V1[i] + (max_percentage_improved/100)-1))*100)-20)))-10)))
+  )
+  
+}
+
+
+effort <- (5*log(-20/((((max_percentage_improved/100)-(preds_v2$V1[i] + (max_percentage_improved/100)-1))*100)-20)))
+
+400*(log((-10)/((5*log(-20/((((max_percentage_improved/100)-(preds_v2$V1[362] + (max_percentage_improved/100)-1))*100)-20)))-10)))
+400*(log((-10)/((5*log(-20/((((max_percentage_improved/100)-(preds_v2$V1[217] + (max_percentage_improved/100)-1))*100)-20)))-10)))
