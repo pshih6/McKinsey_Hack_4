@@ -72,13 +72,24 @@ for (i in 1:length(combined_data_V3$residence_area_type)) {
 remove <- c("residence_area_type","sourcing_channel")
 combined_data_V4 <- combined_data_V3[, !(names(combined_data_V3) %in% remove)]
 
+# Create is_na_underwriting for NA values in application_underwriting_score
+combined_data_V4$is_na_underwriting <- 0
+
+for(i in 1:length(combined_data_V4$application_underwriting_score)) {
+  ifelse(is.na(combined_data_V4$application_underwriting_score[i]), combined_data_V4$is_na_underwriting[i] <- 1, print("0"))
+}
+
 ## set seed
 set.seed(2018)
 
 ## create cross validation folder
 
-cross_validation_folds_list <- createFolds(combined_data_V4[combined_data_V4$renewal != -1,], k = 3,
+cross_validation_folds_list <- createFolds(combined_data_V4[combined_data_V4$renewal != -1,], k = 2,
                                            list = TRUE, returnTrain = FALSE)
+
+# predict the na values in application_underwriting_score 
+
+
 ##convert dataset into xgb,DMatrix for training and testing dataset 
 
 non_predictors <- setdiff(colnames(combined_data_V4), c("id","renewal"))
